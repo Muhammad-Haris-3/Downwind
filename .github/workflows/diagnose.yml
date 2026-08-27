@@ -1,0 +1,53 @@
+name: diagnose
+
+# Temporary. Answers one question: can a GitHub runner reach the Punjab API at
+# all, and if not, at which layer does it fail?
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Where is this runner
+        run: curl -s --max-time 20 https://ipinfo.io/json || echo "ipinfo unreachable"
+
+      - name: DNS
+        run: getent hosts aqi.punjab.gov.pk || echo "DNS FAILED"
+
+      - name: TCP 443
+        run: |
+          timeout 20 bash -c 'cat < /dev/null > /dev/tcp/aqi.punjab.gov.pk/443' \
+            && echo "TCP OK" || echo "TCP FAILED"
+
+      - name: TLS handshake
+        run: |
+          timeout 25 openssl s_client -connect aqi.punjab.gov.pk:443 \
+            -servername aqi.punjab.gov.pk </dev/null 2>&1 | head -12 \
+            || echo "TLS FAILED"
+
+      - name: HTTP with timings
+        run: |
+          curl -sS -o /tmp/out.json -D /tmp/hdr.txt --max-time 60 \
+            -H 'Origin: https://aqi.punjab.gov.pk' \
+            -H 'Referer: https://aqi.punjab.gov.pk/' \
+            -H 'Accept: application/json' \
+            -H 'User-Agent: Mozilla/5.0' \
+            -w 'dns=%{time_namelookup}s connect=%{time_connect}s tls=%{time_appconnect}s ttfb=%{time_starttransfer}s total=%{time_total}s code=%{http_code}\n' \
+            https://aqi.punjab.gov.pk/api/districts || echo "CURL FAILED rc=$?"
+          echo "--- headers ---"; head -20 /tmp/hdr.txt || true
+          echo "--- body ---";    head -c 400 /tmp/out.json || true
+
+      - name: Plain homepage (is it the API or the whole host?)
+        run: |
+          curl -sS -o /dev/null --max-time 60 \
+            -w 'homepage code=%{http_code} total=%{time_total}s\n' \
+            https://aqi.punjab.gov.pk/ || echo "HOMEPAGE FAILED rc=$?"
+
+      - name: IPv4 only (runners are dual-stack; the host may not be)
+        run: |
+          curl -sS -4 -o /dev/null --max-time 60 \
+            -w 'ipv4 code=%{http_code} total=%{time_total}s\n' \
+            https://aqi.punjab.gov.pk/api/districts || echo "IPV4 FAILED rc=$?"
