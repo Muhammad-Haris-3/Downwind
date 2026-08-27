@@ -80,3 +80,12 @@ python -m downwind.collect --data-dir data/raw
 quota. Collection runs on GitHub Actions, which is unlimited and free on public
 repositories. Station coordinates come from an open source; the two feeds still
 to be wired in (NASA FIRMS, OpenAQ) need free registration and no payment.
+
+## Known, unresolved
+
+**Storage growth.** Measured: ~25 KB per poll, so ~2.4 MB/day and roughly 360 MB
+across a full smog season. That is comfortable for the first months and not for
+the first year. The fix is gzip compaction of partitions once their UTC day has
+closed, which is deliberately *not* implemented yet: it rewrites files the
+append-only guarantee currently protects, so it should land as its own reviewed
+change rather than be smuggled into the collector.
