@@ -232,3 +232,91 @@ def test_run_many_polls_repeatedly_and_paces_itself(monkeypatch, tmp_path):
     assert len(slept) == 2
     assert all(0 < s <= 900 for s in slept)
     assert len({r["poll_id"] for r in records}) == 3
+
+
+def test_cached_district_list_rescues_a_poll(monkeypatch, tmp_path, frozen):
+    """One bad second on /api/districts must not cost 55 stations.
+
+    This is the failure the first CI collection actually hit.
+    """
+    cache = tmp_path / "districts.json"
+    collect.save_cached_districts(cache, ["Lahore", "Murree"])
+    monkeypatch.setattr(
+        collect,
+        "_fetch",
+        fake_fetch(
+            {
+                "districts": collect.FetchError("urlopen error timed out"),
+                "district-stations/Lahore": {"data": [STATION]},
+                "district-stations/Murree": {"data": [STATION]},
+                "stations-with-connectivity-issues": {"count": 0},
+            }
+        ),
+    )
+    poll = collect.poll_once(delay=0, now=frozen, district_cache=cache)
+
+    assert len(poll.readings) == 2
+    assert poll.district_source == "cache"
+    # The failure is still recorded. Recovering from it must not hide it.
+    assert poll.failures[0]["target"] == "districts"
+    assert poll.failures[0]["fallback"] == "cache"
+
+
+def test_successful_fetch_refreshes_the_cache(monkeypatch, tmp_path, frozen):
+    cache = tmp_path / "districts.json"
+    collect.save_cached_districts(cache, ["Stale"])
+    monkeypatch.setattr(
+        collect,
+        "_fetch",
+        fake_fetch(
+            {
+                "districts": {"districts": ["Lahore", "Kot Addu"]},
+                "district-stations/Lahore": {"data": [STATION]},
+                "district-stations/Kot%20Addu": {"data": [STATION]},
+                "stations-with-connectivity-issues": {"count": 0},
+            }
+        ),
+    )
+    poll = collect.poll_once(delay=0, now=frozen, district_cache=cache)
+
+    assert poll.district_source == "live"
+    assert collect.load_cached_districts(cache) == ["Lahore", "Kot Addu"]
+
+
+def test_no_cache_and_no_network_yields_an_empty_poll(monkeypatch, tmp_path, frozen):
+    monkeypatch.setattr(
+        collect, "_fetch", fake_fetch({"districts": collect.FetchError("down")})
+    )
+    poll = collect.poll_once(
+        delay=0, now=frozen, district_cache=tmp_path / "absent.json"
+    )
+
+    assert poll.readings == []
+    assert poll.district_source == "unavailable"
+
+
+def test_corrupt_cache_is_treated_as_absent(tmp_path):
+    bad = tmp_path / "districts.json"
+    bad.write_text("{not json", encoding="utf-8")
+    assert collect.load_cached_districts(bad) == []
+
+
+def test_run_record_names_the_district_source(monkeypatch, tmp_path):
+    cache = tmp_path / "districts.json"
+    collect.save_cached_districts(cache, ["Lahore"])
+    monkeypatch.setattr(
+        collect,
+        "_fetch",
+        fake_fetch(
+            {
+                "districts": collect.FetchError("timed out"),
+                "district-stations/Lahore": {"data": [STATION]},
+                "stations-with-connectivity-issues": {"count": 0},
+            }
+        ),
+    )
+    record = collect.run(Store(tmp_path), delay=0, district_cache=cache)
+
+    assert record["district_source"] == "cache"
+    assert record["station_readings"] == 1
+    assert record["complete"] is False

@@ -47,6 +47,10 @@ RETRIES = 2
 RETRY_BACKOFF = 3.0
 POLITE_DELAY = 0.25
 
+# The district list changes on the order of months; a cached copy keeps a
+# momentary failure on one endpoint from costing a whole poll.
+DISTRICT_CACHE = Path("data/districts.json")
+
 
 class FetchError(Exception):
     """A request that did not return usable JSON after all retries."""
@@ -62,6 +66,7 @@ class Poll:
     connectivity: list[dict[str, Any]] = field(default_factory=list)
     failures: list[dict[str, Any]] = field(default_factory=list)
     districts_seen: list[str] = field(default_factory=list)
+    district_source: str = "live"
 
 
 def _fetch(path: str, *, timeout: float = REQUEST_TIMEOUT) -> Any:
@@ -99,6 +104,42 @@ def fetch_districts() -> list[str]:
     return list(districts)
 
 
+def load_cached_districts(path: Path) -> list[str]:
+    """The last district list that was successfully fetched, if any."""
+    try:
+        return list(json.loads(path.read_text(encoding="utf-8"))["districts"])
+    except Exception:  # noqa: BLE001 - a missing or corrupt cache is just absent
+        return []
+
+
+def save_cached_districts(path: Path, districts: list[str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps({"districts": districts}, indent=1, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def resolve_districts(cache: Path) -> tuple[list[str], str, str | None]:
+    """Get the district list, falling back to the last known one.
+
+    The first CI collection lost an entire poll because `/api/districts` timed
+    out for one moment and the sweep treated that as fatal. The district list
+    changes on the order of months, so one bad second on one endpoint must not
+    cost a poll of fifty-five stations. Returns the list, its source, and the
+    error if the live fetch failed.
+    """
+    try:
+        districts = fetch_districts()
+    except FetchError as exc:
+        cached = load_cached_districts(cache)
+        if cached:
+            return cached, "cache", str(exc)
+        return [], "unavailable", str(exc)
+    save_cached_districts(cache, districts)
+    return districts, "live", None
+
+
 def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -114,6 +155,7 @@ def poll_once(
     *,
     delay: float = POLITE_DELAY,
     now: Callable[[], datetime] = _utcnow,
+    district_cache: Path = DISTRICT_CACHE,
 ) -> Poll:
     """Sweep every district once and return everything observed.
 
@@ -124,10 +166,11 @@ def poll_once(
     started = now()
     poll = Poll(poll_id=uuid.uuid4().hex, started_at=started)
 
-    try:
-        districts = fetch_districts()
-    except FetchError as exc:
-        poll.failures.append({"target": "districts", "error": str(exc)})
+    districts, source, error = resolve_districts(district_cache)
+    poll.district_source = source
+    if error:
+        poll.failures.append({"target": "districts", "error": error, "fallback": source})
+    if not districts:
         return poll
     poll.districts_seen = districts
 
@@ -186,9 +229,14 @@ def poll_once(
     return poll
 
 
-def run(store: Store, *, delay: float = POLITE_DELAY) -> dict[str, Any]:
+def run(
+    store: Store,
+    *,
+    delay: float = POLITE_DELAY,
+    district_cache: Path = DISTRICT_CACHE,
+) -> dict[str, Any]:
     """Poll once and persist everything. Returns the run record."""
-    poll = poll_once(delay=delay)
+    poll = poll_once(delay=delay, district_cache=district_cache)
     finished = _utcnow()
 
     n_readings = store.append("readings", poll.started_at, poll.readings)
@@ -207,6 +255,7 @@ def run(store: Store, *, delay: float = POLITE_DELAY) -> dict[str, Any]:
         "finished_at_utc": finished.isoformat(),
         "duration_seconds": round((finished - poll.started_at).total_seconds(), 2),
         "districts_polled": len(poll.districts_seen),
+        "district_source": poll.district_source,
         "districts": poll.districts_seen,
         "station_readings": stations,
         "records_written": {"readings": n_readings, "connectivity": n_connectivity},
@@ -224,6 +273,7 @@ def run_many(
     polls: int,
     interval: float,
     delay: float = POLITE_DELAY,
+    district_cache: Path = DISTRICT_CACHE,
     sleep: Callable[[float], None] = time.sleep,
 ) -> list[dict[str, Any]]:
     """Poll ``polls`` times, ``interval`` seconds apart, measured from each start.
@@ -236,7 +286,7 @@ def run_many(
     records: list[dict[str, Any]] = []
     for index in range(polls):
         started = time.monotonic()
-        records.append(run(store, delay=delay))
+        records.append(run(store, delay=delay, district_cache=district_cache))
         if index < polls - 1:
             remaining = interval - (time.monotonic() - started)
             if remaining > 0:
