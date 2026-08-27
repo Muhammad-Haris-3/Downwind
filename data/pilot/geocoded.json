@@ -1,0 +1,145 @@
+{
+ "Attok": {
+  "station_name": "Attok",
+  "district": "Attock",
+  "lat": 33.7695323,
+  "lon": 72.3610911,
+  "precision": "settlement",
+  "source": "nominatim",
+  "query": "Attock, Attock, Punjab, Pakistan",
+  "matched_name": "Attock, Attock Tehsil, Attock District, Rawalpindi Division, Punjab, 43600, Pakistan",
+  "in_district_polygon": true
+ },
+ "Bhakkar": {
+  "station_name": "Bhakkar",
+  "district": "Bhakkar",
+  "lat": 31.5971362,
+  "lon": 71.1137428,
+  "precision": "unknown",
+  "source": "nominatim",
+  "query": "Bhakkar, Bhakkar, Punjab, Pakistan",
+  "matched_name": "Bhakkar, Jhang Bhakkar Road, Bhakkar, Bhakkar Tehsil, Bhakkar District, Mianwali Division, Punjab, Pakistan",
+  "in_district_polygon": true
+ },
+ "Talagang": {
+  "station_name": "Talagang",
+  "district": "Chakwal",
+  "lat": 32.9240502,
+  "lon": 72.4139769,
+  "precision": "settlement",
+  "source": "nominatim",
+  "query": "Talagang, Punjab, Pakistan",
+  "matched_name": "Talagang, Talagang Tehsil, Talagang District, Mianwali Division, Punjab, Pakistan",
+  "in_district_polygon": true
+ },
+ "Chiniot": {
+  "station_name": "Chiniot",
+  "district": "Chiniot",
+  "lat": 31.7223135,
+  "lon": 72.9802538,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "query": "Chiniot, Punjab, Pakistan",
+  "matched_name": "Chiniot, Chiniot Tehsil, Chiniot District, Faisalabad Division, Punjab, Pakistan",
+  "in_district_polygon": true
+ },
+ "DC Office Kasur": {
+  "station_name": "DC Office Kasur",
+  "district": "Kasur",
+  "lat": 31.1175143,
+  "lon": 74.4478314,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "query": "Kasur, Punjab, Pakistan",
+  "matched_name": "Kasur, Kasur Tehsil, Kasur District, Lahore Division, Punjab, 55050, Pakistan",
+  "in_district_polygon": true
+ },
+ "Khushab": {
+  "station_name": "Khushab",
+  "district": "Khushab",
+  "lat": 32.2903666,
+  "lon": 72.3515792,
+  "precision": "settlement",
+  "source": "nominatim",
+  "query": "Khushab, Khushab, Punjab, Pakistan",
+  "matched_name": "Khushab, Khushab Tehsil, Khushab District, Sargodha Division, Punjab, Pakistan",
+  "in_district_polygon": true
+ },
+ "Kot Addu": {
+  "station_name": "Kot Addu",
+  "district": "Kot Addu",
+  "lat": 30.4949072,
+  "lon": 70.971156,
+  "precision": "unknown",
+  "source": "nominatim",
+  "query": "Kot Addu, Kot Addu, Punjab, Pakistan",
+  "matched_name": "Kot Addu, Post Office Street, Kot Addu, Kot Addu Tehsil, Kot Addu District, Dera Ghazi Khan Division, Punjab, 34050, Pakistan",
+  "in_district_polygon": null
+ },
+ "Model Town, Lahore": {
+  "station_name": "Model Town, Lahore",
+  "district": "Lahore",
+  "lat": 31.483627,
+  "lon": 74.3259916,
+  "precision": "neighbourhood",
+  "source": "nominatim",
+  "query": "Model Town, Lahore, Lahore, Punjab, Pakistan",
+  "matched_name": "Model Town, Model Town Tehsil, Lahore District, Lahore Division, Punjab, 54600, Pakistan",
+  "in_district_polygon": true
+ },
+ "Mianwali": {
+  "station_name": "Mianwali",
+  "district": "Mianwali",
+  "lat": 32.5705533,
+  "lon": 71.5239763,
+  "precision": "settlement",
+  "source": "nominatim",
+  "query": "Mianwali, Mianwali, Punjab, Pakistan",
+  "matched_name": "Mianwali, Mianwali Tehsil, Mianwali District, Mianwali Division, Punjab, Pakistan",
+  "in_district_polygon": true
+ },
+ "M. Nawaz Sharif University of Engineering & Technology Multan": {
+  "station_name": "M. Nawaz Sharif University of Engineering & Technology Multan",
+  "district": "Multan",
+  "lat": 30.197838,
+  "lon": 71.4719683,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "query": "Multan, Punjab, Pakistan",
+  "matched_name": "Multan, Gulshan, Multan District, Multan Division, Punjab, 66000, Pakistan",
+  "in_district_polygon": true
+ },
+ "Murree": {
+  "station_name": "Murree",
+  "district": "Murree",
+  "lat": 33.9056829,
+  "lon": 73.392674,
+  "precision": "neighbourhood",
+  "source": "nominatim",
+  "query": "Murree, Murree, Punjab, Pakistan",
+  "matched_name": "Murree, Murree Tehsil, Murree District, Rawalpindi Division, Punjab, Pakistan",
+  "in_district_polygon": null
+ },
+ "DC Office Muzaffargarh": {
+  "station_name": "DC Office Muzaffargarh",
+  "district": "Muzaffargarh",
+  "lat": 30.0743097,
+  "lon": 71.1906224,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "query": "Muzaffargarh, Punjab, Pakistan",
+  "matched_name": "Muzaffargarh, Muzaffargarh Tehsil, Muzaffargarh District, Dera Ghazi Khan Division, Punjab, Pakistan",
+  "in_district_polygon": true
+ },
+ "Sahiwal": {
+  "station_name": "Sahiwal",
+  "district": "Sahiwal",
+  "lat": 30.6483426,
+  "lon": 73.098434,
+  "precision": "venue",
+  "source": "nominatim",
+  "query": "Sahiwal, Sahiwal, Punjab, Pakistan",
+  "matched_name": "Sahiwal, Street No, 7, Sahiwal, Sahiwal Tehsil, Sahiwal District, Sahiwal Division, Punjab, 57000, Pakistan",
+  "in_district_polygon": true
+ }
+}

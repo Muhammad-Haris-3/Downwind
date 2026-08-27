@@ -1,0 +1,510 @@
+{
+ "Attok": {
+  "station_name": "Attok",
+  "district": "Attock",
+  "lat": 33.7695323,
+  "lon": 72.3610911,
+  "precision": "settlement",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Attock, Attock, Punjab, Pakistan"
+ },
+ "IUB (Baghdad Campus) Bahawalpur": {
+  "station_name": "IUB (Baghdad Campus) Bahawalpur",
+  "district": "Bahawalpur",
+  "lat": 29.37683258,
+  "lon": 71.7626724,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "IUB (Khawaja Fareed Campus) Bahawalpur": {
+  "station_name": "IUB (Khawaja Fareed Campus) Bahawalpur",
+  "district": "Bahawalpur",
+  "lat": 29.39770812,
+  "lon": 71.69163577,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Bhakkar": {
+  "station_name": "Bhakkar",
+  "district": "Bhakkar",
+  "lat": 31.5971362,
+  "lon": 71.1137428,
+  "precision": "unknown",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Bhakkar, Bhakkar, Punjab, Pakistan"
+ },
+ "Talagang": {
+  "station_name": "Talagang",
+  "district": "Chakwal",
+  "lat": 32.9240502,
+  "lon": 72.4139769,
+  "precision": "settlement",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Talagang, Punjab, Pakistan"
+ },
+ "DC Office Chakwal": {
+  "station_name": "DC Office Chakwal",
+  "district": "Chakwal",
+  "lat": 32.9333,
+  "lon": 72.85,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Chiniot": {
+  "station_name": "Chiniot",
+  "district": "Chiniot",
+  "lat": 31.7223135,
+  "lon": 72.9802538,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Chiniot, Punjab, Pakistan"
+ },
+ "DC Office DG Khan": {
+  "station_name": "DC Office DG Khan",
+  "district": "DG Khan",
+  "lat": 30.05179263,
+  "lon": 70.62966164,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "GCU Faisalabad": {
+  "station_name": "GCU Faisalabad",
+  "district": "Faisalabad",
+  "lat": 31.41624606,
+  "lon": 73.07000253,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "NTU Faisalabad": {
+  "station_name": "NTU Faisalabad",
+  "district": "Faisalabad",
+  "lat": 31.46211283,
+  "lon": 73.1485473,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Faisalabad": {
+  "station_name": "DC Office Faisalabad",
+  "district": "Faisalabad",
+  "lat": 31.42544876,
+  "lon": 73.08115579,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Gujranwala": {
+  "station_name": "DC Office Gujranwala",
+  "district": "Gujranwala",
+  "lat": 32.17468002,
+  "lon": 74.19513106,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "GCW Gujranwala": {
+  "station_name": "GCW Gujranwala",
+  "district": "Gujranwala",
+  "lat": 32.25587013,
+  "lon": 74.15945324,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Gujrat": {
+  "station_name": "DC Office Gujrat",
+  "district": "Gujrat",
+  "lat": 32.5739,
+  "lon": 74.0776,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Hafizabad": {
+  "station_name": "DC Office Hafizabad",
+  "district": "Hafizabad",
+  "lat": 32.0679,
+  "lon": 73.685,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Jhang": {
+  "station_name": "Jhang",
+  "district": "Jhang",
+  "lat": 31.270876,
+  "lon": 72.32414,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Jhelum": {
+  "station_name": "Jhelum",
+  "district": "Jhelum",
+  "lat": 32.94739155,
+  "lon": 73.7163628,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Kasur": {
+  "station_name": "DC Office Kasur",
+  "district": "Kasur",
+  "lat": 31.1175143,
+  "lon": 74.4478314,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Kasur, Punjab, Pakistan"
+ },
+ "DC Office Khanewal": {
+  "station_name": "DC Office Khanewal",
+  "district": "Khanewal",
+  "lat": 30.3,
+  "lon": 71.9333,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Khushab": {
+  "station_name": "Khushab",
+  "district": "Khushab",
+  "lat": 32.2903666,
+  "lon": 72.3515792,
+  "precision": "settlement",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Khushab, Khushab, Punjab, Pakistan"
+ },
+ "Kot Addu": {
+  "station_name": "Kot Addu",
+  "district": "Kot Addu",
+  "lat": 30.4949072,
+  "lon": 70.971156,
+  "precision": "unknown",
+  "source": "nominatim",
+  "verified_in_district": null,
+  "query": "Kot Addu, Kot Addu, Punjab, Pakistan"
+ },
+ "Multan Road": {
+  "station_name": "Multan Road",
+  "district": "Lahore",
+  "lat": 31.46379729,
+  "lon": 74.22594175,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Shahdara": {
+  "station_name": "Shahdara",
+  "district": "Lahore",
+  "lat": 31.63812639,
+  "lon": 74.28518245,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Barki Road": {
+  "station_name": "Barki Road",
+  "district": "Lahore",
+  "lat": 31.53590314,
+  "lon": 74.43518805,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Punjab University": {
+  "station_name": "Punjab University",
+  "district": "Lahore",
+  "lat": 31.47965946,
+  "lon": 74.26608654,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "GT Road": {
+  "station_name": "GT Road",
+  "district": "Lahore",
+  "lat": 31.57982567,
+  "lon": 74.35500334,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Safari Park": {
+  "station_name": "Safari Park",
+  "district": "Lahore",
+  "lat": 31.38231477,
+  "lon": 74.21817282,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Egerton Road": {
+  "station_name": "Egerton Road",
+  "district": "Lahore",
+  "lat": 31.56094017,
+  "lon": 74.33080805,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Model Town, Lahore": {
+  "station_name": "Model Town, Lahore",
+  "district": "Lahore",
+  "lat": 31.483627,
+  "lon": 74.3259916,
+  "precision": "neighbourhood",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Model Town, Lahore, Lahore, Punjab, Pakistan"
+ },
+ "DHA Phase 6": {
+  "station_name": "DHA Phase 6",
+  "district": "Lahore",
+  "lat": 31.45594422,
+  "lon": 74.46377265,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Wagha Border": {
+  "station_name": "Wagha Border",
+  "district": "Lahore",
+  "lat": 31.60217088,
+  "lon": 74.54493878,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Mandi Bahauddin": {
+  "station_name": "Mandi Bahauddin",
+  "district": "Mandi Bahauddin",
+  "lat": 32.543044,
+  "lon": 73.48046842,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Mianwali": {
+  "station_name": "Mianwali",
+  "district": "Mianwali",
+  "lat": 32.5705533,
+  "lon": 71.5239763,
+  "precision": "settlement",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Mianwali, Mianwali, Punjab, Pakistan"
+ },
+ "M. Nawaz Sharif University of Engineering & Technology Multan": {
+  "station_name": "M. Nawaz Sharif University of Engineering & Technology Multan",
+  "district": "Multan",
+  "lat": 30.197838,
+  "lon": 71.4719683,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Multan, Punjab, Pakistan"
+ },
+ "BZU Multan": {
+  "station_name": "BZU Multan",
+  "district": "Multan",
+  "lat": 30.26234586,
+  "lon": 71.51253807,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Murree": {
+  "station_name": "Murree",
+  "district": "Murree",
+  "lat": 33.9056829,
+  "lon": 73.392674,
+  "precision": "neighbourhood",
+  "source": "nominatim",
+  "verified_in_district": null,
+  "query": "Murree, Murree, Punjab, Pakistan"
+ },
+ "DC Office Muzaffargarh": {
+  "station_name": "DC Office Muzaffargarh",
+  "district": "Muzaffargarh",
+  "lat": 30.0743097,
+  "lon": 71.1906224,
+  "precision": "district_centroid",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Muzaffargarh, Punjab, Pakistan"
+ },
+ "Nankana Sahib": {
+  "station_name": "Nankana Sahib",
+  "district": "Nankana Sahib",
+  "lat": 31.44863776,
+  "lon": 73.69813519,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Narowal": {
+  "station_name": "DC Office Narowal",
+  "district": "Narowal",
+  "lat": 32.1019,
+  "lon": 74.8733,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Okara": {
+  "station_name": "Okara",
+  "district": "Okara",
+  "lat": 30.80036449,
+  "lon": 73.42500426,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Pakpattan": {
+  "station_name": "Pakpattan",
+  "district": "Pakpattan",
+  "lat": 30.36243196,
+  "lon": 73.38184754,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Rahim Yar Khan": {
+  "station_name": "DC Office Rahim Yar Khan",
+  "district": "Rahim Yar Khan",
+  "lat": 28.4212,
+  "lon": 70.2989,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Rajanpur": {
+  "station_name": "Rajanpur",
+  "district": "Rajanpur",
+  "lat": 29.10631064,
+  "lon": 70.32710303,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Drug Testing Laboratory Rawalpindi": {
+  "station_name": "Drug Testing Laboratory Rawalpindi",
+  "district": "Rawalpindi",
+  "lat": 33.54226391,
+  "lon": 73.01392022,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "ARID University Rawalpindi": {
+  "station_name": "ARID University Rawalpindi",
+  "district": "Rawalpindi",
+  "lat": 33.65061773,
+  "lon": 73.08067117,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Rawalpindi": {
+  "station_name": "DC Office Rawalpindi",
+  "district": "Rawalpindi",
+  "lat": 33.5846246,
+  "lon": 73.0689157,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Sahiwal": {
+  "station_name": "Sahiwal",
+  "district": "Sahiwal",
+  "lat": 30.6483426,
+  "lon": 73.098434,
+  "precision": "venue",
+  "source": "nominatim",
+  "verified_in_district": true,
+  "query": "Sahiwal, Sahiwal, Punjab, Pakistan"
+ },
+ "BISE Sargodha": {
+  "station_name": "BISE Sargodha",
+  "district": "Sargodha",
+  "lat": 32.03558779,
+  "lon": 72.70063274,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Sargodha": {
+  "station_name": "DC Office Sargodha",
+  "district": "Sargodha",
+  "lat": 32.07161054,
+  "lon": 72.67279476,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DHQ Sheikhupura": {
+  "station_name": "DHQ Sheikhupura",
+  "district": "Sheikhupura",
+  "lat": 31.71190727,
+  "lon": 73.97887263,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Lathepur": {
+  "station_name": "Lathepur",
+  "district": "Sheikhupura",
+  "lat": 31.7175975,
+  "lon": 74.38945645,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "BHU Jandiala Kalsan": {
+  "station_name": "BHU Jandiala Kalsan",
+  "district": "Sheikhupura",
+  "lat": 31.84868155,
+  "lon": 74.51479797,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "DC Office Sialkot": {
+  "station_name": "DC Office Sialkot",
+  "district": "Sialkot",
+  "lat": 32.50525591,
+  "lon": 74.53303398,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Vehari": {
+  "station_name": "Vehari",
+  "district": "Vehari",
+  "lat": 30.04988255,
+  "lon": 72.35725162,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ },
+ "Wazirabad": {
+  "station_name": "Wazirabad",
+  "district": "Wazirabad",
+  "lat": 32.44199381,
+  "lon": 74.11807969,
+  "precision": "station",
+  "source": "aqicn",
+  "verified_in_district": null
+ }
+}

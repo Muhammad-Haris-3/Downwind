@@ -266,3 +266,78 @@ The lesson worth carrying: **the API is reliable from Pakistan and intermittentl
 slow from foreign datacentres.** Nothing can be done about their server. What can
 be done is bound our own behaviour and record the truth about what we missed —
 which is the same discipline the project applies to the network it studies.
+
+---
+
+# Addendum — 27 August 2026: all 55 stations located
+
+**Every station now has coordinates.** 42 from the aqicn cross-match, 13 from
+OpenStreetMap via Nominatim. The registry is [`data/stations.json`](data/stations.json),
+and every entry carries how it was obtained and how precise it is.
+
+## Verification caught three wrong answers that all looked right
+
+A geocoder returns a confident coordinate for almost anything. Three separate
+guards were needed, each added because the previous one passed something wrong.
+
+**1. District polygon check.** Every result is tested against the district
+polygon it should sit in. Necessary, and nowhere near sufficient.
+
+**2. Name consistency.** Querying *Talagang, Chakwal* returned a point at
+Chakwal city — **38 km away**, and inside Chakwal district, so the polygon check
+passed it. A polygon proves a point is in the right district; it never proves it
+is the right place within it.
+
+**3. Linear features rejected.** The name check then passed the same station,
+because what actually matched was **"Talagang–Chakwal Road"** — a road named
+after the town but lying in Chakwal city. A road is never a station location.
+
+That third guard did not work when first written: it tested the `class` field,
+but Nominatim's `jsonv2` reports it as `category` and frequently omits it,
+leaving only `type`. **The suite went green and Talagang stayed 38 km wrong.**
+Checking `type` against OSM highway values fixed it.
+
+Querying without the district — Talagang is now its own district while the API
+still files it under Chakwal — returned the correct town.
+
+**Five stations moved once all three guards were active:** Talagang by 38.9 km,
+Bhakkar 5.4, Mianwali 1.4, Attock 1.0, Chiniot 1.0.
+
+## Precision is recorded, not assumed
+
+| precision | n | meaning |
+|---|---|---|
+| `station` | 42 | from the aqicn network listing |
+| `settlement` / `neighbourhood` / `venue` | 7 | a named place matched directly |
+| `district_centroid` | 4 | **the station was not findable; this is the district's centre standing in** |
+| `unknown` | 2 | matched, type unrecognised |
+
+The four centroids — DC Office Kasur, DC Office Muzaffargarh, MNS UET Multan,
+Chiniot — are labelled so downstream code can exclude them. All four are in
+single-station districts, where the station is the *subject* of the hold-out
+test rather than the reference, so the cost is contained.
+
+**All four reference districts are fully located:** Lahore 10/10, Faisalabad,
+Rawalpindi and Sheikhupura 3/3 each. Only Model Town, Lahore is below station
+precision, at neighbourhood level.
+
+## What that unlocks
+
+With every reference station placed, the relationship the project rests on is
+measurable across all four districts — 54 station pairs, 1.5 to 52.9 km apart:
+
+| separation | pairs | mean AQI difference |
+|---|---|---|
+| 0–5 km | 3 | **14.3** |
+| 5–10 km | 12 | 26.0 |
+| 10–20 km | 22 | 27.5 |
+| 20–100 km | 17 | **42.5** |
+
+**Pearson r between separation and disagreement: 0.548 (n = 54).**
+
+Disagreement scales with distance. That is the function a model can learn, and
+it is what turns "one station is unrepresentative" into a quantity.
+
+**This is one instant, not a result.** It is a pilot signal on a single sweep,
+and the pre-registration's floors — 60 days, 150,000 station-hours — are
+unchanged by it.
