@@ -1,0 +1,254 @@
+{
+ "IUB (Baghdad Campus) Bahawalpur": {
+  "district": "Bahawalpur",
+  "aqicn_name": "IUB (Baghdad Campus) Bahawalpur, Bahawalpur City Tehsil, Pakistan",
+  "lat": 29.37683258,
+  "lon": 71.7626724
+ },
+ "IUB (Khawaja Fareed Campus) Bahawalpur": {
+  "district": "Bahawalpur",
+  "aqicn_name": "IUB (Khawaja Fareed Campus) Bahawalpur, Bahawalpur City Tehsil, Pakistan",
+  "lat": 29.39770812,
+  "lon": 71.69163577
+ },
+ "DC Office Chakwal": {
+  "district": "Chakwal",
+  "aqicn_name": "DC Office Chakwal, Pakistan",
+  "lat": 32.9333,
+  "lon": 72.85
+ },
+ "DC Office DG Khan": {
+  "district": "DG Khan",
+  "aqicn_name": "DC Office DG Khan, Dera Ghazi Khan, Pakistan",
+  "lat": 30.05179263,
+  "lon": 70.62966164
+ },
+ "GCU Faisalabad": {
+  "district": "Faisalabad",
+  "aqicn_name": "GCU Faisalabad, Faisalabad City Tehsil, Pakistan",
+  "lat": 31.41624606,
+  "lon": 73.07000253
+ },
+ "NTU Faisalabad": {
+  "district": "Faisalabad",
+  "aqicn_name": "NTU Faisalabad, Faisalabad City Tehsil, Pakistan",
+  "lat": 31.46211283,
+  "lon": 73.1485473
+ },
+ "DC Office Faisalabad": {
+  "district": "Faisalabad",
+  "aqicn_name": "DC Office Faisalabad, Faisalabad City Tehsil, Pakistan",
+  "lat": 31.42544876,
+  "lon": 73.08115579
+ },
+ "DC Office Gujranwala": {
+  "district": "Gujranwala",
+  "aqicn_name": "DC Office Gujranwala, Gujranwala City Tehsil, Pakistan",
+  "lat": 32.17468002,
+  "lon": 74.19513106
+ },
+ "GCW Gujranwala": {
+  "district": "Gujranwala",
+  "aqicn_name": "GCW Gujranwala, Gulab Pura, Pakistan",
+  "lat": 32.25587013,
+  "lon": 74.15945324
+ },
+ "DC Office Gujrat": {
+  "district": "Gujrat",
+  "aqicn_name": "DC Office Gujrat, Pakistan",
+  "lat": 32.5739,
+  "lon": 74.0776
+ },
+ "DC Office Hafizabad": {
+  "district": "Hafizabad",
+  "aqicn_name": "DC Office Hafizabad, Pakistan",
+  "lat": 32.0679,
+  "lon": 73.685
+ },
+ "Jhang": {
+  "district": "Jhang",
+  "aqicn_name": "Jhang, Pakistan",
+  "lat": 31.270876,
+  "lon": 72.32414
+ },
+ "Jhelum": {
+  "district": "Jhelum",
+  "aqicn_name": "Jhelum, Jada, Pakistan",
+  "lat": 32.94739155,
+  "lon": 73.7163628
+ },
+ "DC Office Khanewal": {
+  "district": "Khanewal",
+  "aqicn_name": "DC Office Khanewal, Khanewal Tehsil, Pakistan",
+  "lat": 30.3,
+  "lon": 71.9333
+ },
+ "Multan Road": {
+  "district": "Lahore",
+  "aqicn_name": "Multan Road, Chung, Pakistan",
+  "lat": 31.46379729,
+  "lon": 74.22594175
+ },
+ "Shahdara": {
+  "district": "Lahore",
+  "aqicn_name": "Shahdara, Shahdara Bagh, Pakistan",
+  "lat": 31.63812639,
+  "lon": 74.28518245
+ },
+ "Barki Road": {
+  "district": "Lahore",
+  "aqicn_name": "Barki Road, Baoowala, Pakistan",
+  "lat": 31.53590314,
+  "lon": 74.43518805
+ },
+ "Punjab University": {
+  "district": "Lahore",
+  "aqicn_name": "Punjab University, Lahore, Pakistan",
+  "lat": 31.47965946,
+  "lon": 74.26608654
+ },
+ "GT Road": {
+  "district": "Lahore",
+  "aqicn_name": "GT Road, Begampura, Pakistan",
+  "lat": 31.57982567,
+  "lon": 74.35500334
+ },
+ "Safari Park": {
+  "district": "Lahore",
+  "aqicn_name": "Safari Park, Chamru Pur, Pakistan",
+  "lat": 31.38231477,
+  "lon": 74.21817282
+ },
+ "Egerton Road": {
+  "district": "Lahore",
+  "aqicn_name": "Egerton Road, Civil Lines, Pakistan",
+  "lat": 31.56094017,
+  "lon": 74.33080805
+ },
+ "DHA Phase 6": {
+  "district": "Lahore",
+  "aqicn_name": "DHA Phase 6, Punjab, Pakistan",
+  "lat": 31.45594422,
+  "lon": 74.46377265
+ },
+ "Wagha Border": {
+  "district": "Lahore",
+  "aqicn_name": "Wagha Border, Santpur, Pakistan",
+  "lat": 31.60217088,
+  "lon": 74.54493878
+ },
+ "Mandi Bahauddin": {
+  "district": "Mandi Bahauddin",
+  "aqicn_name": "Mandi Bahauddin, Jholana, Pakistan",
+  "lat": 32.543044,
+  "lon": 73.48046842
+ },
+ "BZU Multan": {
+  "district": "Multan",
+  "aqicn_name": "BZU Multan, Pakistan",
+  "lat": 30.26234586,
+  "lon": 71.51253807
+ },
+ "Nankana Sahib": {
+  "district": "Nankana Sahib",
+  "aqicn_name": "Nankana Sahib, Pakistan",
+  "lat": 31.44863776,
+  "lon": 73.69813519
+ },
+ "DC Office Narowal": {
+  "district": "Narowal",
+  "aqicn_name": "DC Office Narowal, Pakistan",
+  "lat": 32.1019,
+  "lon": 74.8733
+ },
+ "Okara": {
+  "district": "Okara",
+  "aqicn_name": "Okara, Pakistan",
+  "lat": 30.80036449,
+  "lon": 73.42500426
+ },
+ "Pakpattan": {
+  "district": "Pakpattan",
+  "aqicn_name": "Pakpattan, Pakistan",
+  "lat": 30.36243196,
+  "lon": 73.38184754
+ },
+ "DC Office Rahim Yar Khan": {
+  "district": "Rahim Yar Khan",
+  "aqicn_name": "DC Office Rahim Yar Khan, Pakistan",
+  "lat": 28.4212,
+  "lon": 70.2989
+ },
+ "Rajanpur": {
+  "district": "Rajanpur",
+  "aqicn_name": "Rajanpur, Pakistan",
+  "lat": 29.10631064,
+  "lon": 70.32710303
+ },
+ "Drug Testing Laboratory Rawalpindi": {
+  "district": "Rawalpindi",
+  "aqicn_name": "Drug Testing Laboratory Rawalpindi, Khalid Colony, Pakistan",
+  "lat": 33.54226391,
+  "lon": 73.01392022
+ },
+ "ARID University Rawalpindi": {
+  "district": "Rawalpindi",
+  "aqicn_name": "ARID University Rawalpindi, Chah Sultan, Pakistan",
+  "lat": 33.65061773,
+  "lon": 73.08067117
+ },
+ "DC Office Rawalpindi": {
+  "district": "Rawalpindi",
+  "aqicn_name": "DC Office Rawalpindi, Rawalpindi Cantonment, Pakistan",
+  "lat": 33.5846246,
+  "lon": 73.0689157
+ },
+ "BISE Sargodha": {
+  "district": "Sargodha",
+  "aqicn_name": "BISE Sargodha, Pakistan",
+  "lat": 32.03558779,
+  "lon": 72.70063274
+ },
+ "DC Office Sargodha": {
+  "district": "Sargodha",
+  "aqicn_name": "DC Office Sargodha, Pakistan",
+  "lat": 32.07161054,
+  "lon": 72.67279476
+ },
+ "DHQ Sheikhupura": {
+  "district": "Sheikhupura",
+  "aqicn_name": "DHQ Sheikhupura, Pakistan",
+  "lat": 31.71190727,
+  "lon": 73.97887263
+ },
+ "Lathepur": {
+  "district": "Sheikhupura",
+  "aqicn_name": "Lathepur, Pakistan",
+  "lat": 31.7175975,
+  "lon": 74.38945645
+ },
+ "BHU Jandiala Kalsan": {
+  "district": "Sheikhupura",
+  "aqicn_name": "BHU Jandiala Kalsan, Chak Dheedo New, Pakistan",
+  "lat": 31.84868155,
+  "lon": 74.51479797
+ },
+ "DC Office Sialkot": {
+  "district": "Sialkot",
+  "aqicn_name": "DC Office Sialkot, Pakistan",
+  "lat": 32.50525591,
+  "lon": 74.53303398
+ },
+ "Vehari": {
+  "district": "Vehari",
+  "aqicn_name": "Vehari, Pakistan",
+  "lat": 30.04988255,
+  "lon": 72.35725162
+ },
+ "Wazirabad": {
+  "district": "Wazirabad",
+  "aqicn_name": "Wazirabad, Pakistan",
+  "lat": 32.44199381,
+  "lon": 74.11807969
+ }
+}

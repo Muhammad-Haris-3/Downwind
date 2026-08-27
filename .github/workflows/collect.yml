@@ -1,0 +1,69 @@
+name: collect
+
+# Hourly, four polls per run, fifteen minutes apart.
+#
+# One job per poll would spend more time starting a runner than polling. Four
+# polls per job costs at most one hour of data if a runner dies, and every gap
+# stays visible in the runs stream, so the record can always be honest about
+# what it missed.
+#
+# GitHub's scheduler is best-effort and runs late under load. That is why every
+# record is stamped when it is observed, never when it was scheduled.
+
+on:
+  schedule:
+    - cron: "3 * * * *"
+  workflow_dispatch:
+    inputs:
+      polls:
+        description: "Polls to run"
+        default: "1"
+      interval:
+        description: "Seconds between polls"
+        default: "900"
+
+# Never let a late run collide with the next one.
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Poll the network
+        run: |
+          python -m downwind.collect \
+            --data-dir data/raw \
+            --polls "${{ github.event.inputs.polls || '4' }}" \
+            --interval "${{ github.event.inputs.interval || '900' }}"
+
+      - name: Commit whatever was collected
+        run: |
+          git config user.name  "downwind-collector"
+          git config user.email "downwind-collector@users.noreply.github.com"
+          git add data/raw
+          if git diff --cached --quiet; then
+            echo "nothing collected this run"
+            exit 0
+          fi
+          git commit -m "collect: $(date -u +'%Y-%m-%dT%H:%MZ')"
+          # Another run may have landed while this one was polling.
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            echo "push attempt ${attempt} failed, retrying"
+            sleep 10
+          done
+          exit 1
