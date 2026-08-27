@@ -233,3 +233,36 @@ representativeness question is now the entire project.
 **Method note:** the district list must come from `/api/districts`, never from a
 boundary file. The first enumeration silently missed four districts because of
 this, and reported a station count 4 too low.
+
+---
+
+# Addendum — 27 August 2026: what running it unattended exposed
+
+The collector was correct locally on the first try and wrong in CI twice. Both
+faults were invisible from a green job, which is the point of recording them.
+
+**1. A green job that collected nothing.** The first CI collection committed a
+run record showing `stations 0, complete False`. `/api/districts` timed out for
+one moment, and the sweep treated that single call as fatal. Diagnostics ruled
+out the obvious suspects — a GitHub runner in Washington reaches the API in
+**0.58s over HTTP/2**, and the collector's User-Agent performs identically to a
+browser's. It was a momentary blip meeting a single point of failure.
+
+*Fixed:* the district list falls back to the last successfully fetched copy. The
+failure is still recorded, with the fallback named, so recovering never hides it.
+
+**2. A poll that ran for eleven minutes.** At a 30-second timeout with two
+retries, a slow API put the worst case at 36 districts × 90s — **over half an
+hour for one sweep** — with no ceiling. The run had to be cancelled by hand.
+
+*Fixed:* a 300-second budget. Past it the sweep stops, names every district it
+never reached, and marks the run incomplete. Timeout dropped to 20s and retries
+to one. The run record now separates *districts listed* from *districts polled*,
+because collapsing those would let a truncated sweep read as a complete one.
+
+**Verified after both fixes:** 36/36 districts, 55 stations, 68.5s, complete.
+
+The lesson worth carrying: **the API is reliable from Pakistan and intermittently
+slow from foreign datacentres.** Nothing can be done about their server. What can
+be done is bound our own behaviour and record the truth about what we missed —
+which is the same discipline the project applies to the network it studies.
