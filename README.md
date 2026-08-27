@@ -51,8 +51,14 @@ the right ones.
 | `connectivity` | The network's own report of which stations are down — **kept even when it reports none**, because "none today" is evidence |
 | `runs` | One record per poll, including every request that failed. Gaps in this stream are how the record stays honest about itself |
 
-Polled four times an hour. Everything is stamped when observed, never when
-scheduled.
+Polled four times an hour — at :03, :18, :33 and :48 — reached by **two
+independent cron windows** rather than one. GitHub's scheduler drops windows
+outright; the first one this repository was due never fired. With a single
+hourly entry a dropped window costs four polls, with two it costs two, and an
+hour goes silent only if both are dropped.
+
+Everything is stamped when observed, never when scheduled, so a late window
+shifts timestamps rather than misrepresenting them.
 
 **Two things make this necessary rather than optional.** The connectivity
 endpoint is ephemeral — the department publishes what is down right now and

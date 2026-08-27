@@ -1,18 +1,28 @@
 name: collect
 
-# Hourly, four polls per run, fifteen minutes apart.
+# Twice an hour, two polls per run, fifteen minutes apart.
 #
-# One job per poll would spend more time starting a runner than polling. Four
-# polls per job costs at most one hour of data if a runner dies, and every gap
-# stays visible in the runs stream, so the record can always be honest about
-# what it missed.
+# Polls land at :03, :18, :33 and :48 — the same four an hour the
+# pre-registration assumes, but reached by two independent cron windows rather
+# than one. GitHub's scheduler is best-effort: it runs late under load and drops
+# windows outright, and the very first window on this repository never fired at
+# all. With a single hourly entry, one dropped window costs four polls. With two,
+# it costs two, and the hour is never silent unless both are dropped.
 #
-# GitHub's scheduler is best-effort and runs late under load. That is why every
-# record is stamped when it is observed, never when it was scheduled.
+# Two polls per job rather than one keeps runner setup from dominating a
+# sixty-second sweep, and keeps commit volume at 48/day rather than 96.
+#
+# Each job runs about sixteen minutes (poll, wait, poll), so the :03 and :33
+# windows cannot overlap. The concurrency group below covers the case where one
+# runs long anyway.
+#
+# Every record is stamped when it is observed, never when it was scheduled, so
+# a late window shifts the data's timestamps rather than misrepresenting them.
 
 on:
   schedule:
     - cron: "3 * * * *"
+    - cron: "33 * * * *"
   workflow_dispatch:
     inputs:
       polls:
@@ -33,7 +43,8 @@ permissions:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    # A normal job is ~16 minutes. Two poll budgets plus setup is the ceiling.
+    timeout-minutes: 40
 
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +57,7 @@ jobs:
         run: |
           python -m downwind.collect \
             --data-dir data/raw \
-            --polls "${{ github.event.inputs.polls || '4' }}" \
+            --polls "${{ github.event.inputs.polls || '2' }}" \
             --interval "${{ github.event.inputs.interval || '900' }}"
 
       - name: Commit whatever was collected
