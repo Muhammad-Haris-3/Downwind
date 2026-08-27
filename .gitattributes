@@ -1,0 +1,6 @@
+# The collector appends from Windows locally and Linux in CI. Mixed endings
+# in an append-only file produce false diffs and can split records.
+* text=auto eol=lf
+*.ndjson text eol=lf
+*.json text eol=lf
+*.geojson text eol=lf
