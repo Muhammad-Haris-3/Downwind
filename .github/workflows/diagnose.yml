@@ -1,7 +1,8 @@
 name: diagnose
 
-# Temporary. Answers one question: can a GitHub runner reach the Punjab API at
-# all, and if not, at which layer does it fail?
+# Temporary. The runner reaches the API fine with curl (200 in 0.58s) but the
+# collector timed out on the same endpoint. This isolates which difference
+# matters: the User-Agent, the HTTP client, or neither.
 
 on:
   workflow_dispatch:
@@ -9,45 +10,76 @@ on:
 jobs:
   diagnose:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
-      - name: Where is this runner
-        run: curl -s --max-time 20 https://ipinfo.io/json || echo "ipinfo unreachable"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
-      - name: DNS
-        run: getent hosts aqi.punjab.gov.pk || echo "DNS FAILED"
-
-      - name: TCP 443
+      - name: curl with a browser User-Agent
         run: |
-          timeout 20 bash -c 'cat < /dev/null > /dev/tcp/aqi.punjab.gov.pk/443' \
-            && echo "TCP OK" || echo "TCP FAILED"
+          for i in 1 2 3; do
+            curl -sS -o /dev/null --max-time 45 \
+              -H 'Origin: https://aqi.punjab.gov.pk' \
+              -H 'Referer: https://aqi.punjab.gov.pk/' \
+              -H 'User-Agent: Mozilla/5.0' \
+              -w "browser-UA try$i code=%{http_code} total=%{time_total}s\n" \
+              https://aqi.punjab.gov.pk/api/districts || echo "try$i FAILED rc=$?"
+          done
 
-      - name: TLS handshake
+      - name: curl with the collector's User-Agent
         run: |
-          timeout 25 openssl s_client -connect aqi.punjab.gov.pk:443 \
-            -servername aqi.punjab.gov.pk </dev/null 2>&1 | head -12 \
-            || echo "TLS FAILED"
+          for i in 1 2 3; do
+            curl -sS -o /dev/null --max-time 45 \
+              -H 'Origin: https://aqi.punjab.gov.pk' \
+              -H 'Referer: https://aqi.punjab.gov.pk/' \
+              -H 'User-Agent: Downwind/0.1 (research collector; contact via repository)' \
+              -w "downwind-UA try$i code=%{http_code} total=%{time_total}s\n" \
+              https://aqi.punjab.gov.pk/api/districts || echo "try$i FAILED rc=$?"
+          done
 
-      - name: HTTP with timings
+      - name: python urllib, exactly as the collector calls it
         run: |
-          curl -sS -o /tmp/out.json -D /tmp/hdr.txt --max-time 60 \
-            -H 'Origin: https://aqi.punjab.gov.pk' \
-            -H 'Referer: https://aqi.punjab.gov.pk/' \
-            -H 'Accept: application/json' \
-            -H 'User-Agent: Mozilla/5.0' \
-            -w 'dns=%{time_namelookup}s connect=%{time_connect}s tls=%{time_appconnect}s ttfb=%{time_starttransfer}s total=%{time_total}s code=%{http_code}\n' \
-            https://aqi.punjab.gov.pk/api/districts || echo "CURL FAILED rc=$?"
-          echo "--- headers ---"; head -20 /tmp/hdr.txt || true
-          echo "--- body ---";    head -c 400 /tmp/out.json || true
+          python - <<'PY'
+          import time, urllib.request, json
+          from downwind.collect import HEADERS, BASE_URL
 
-      - name: Plain homepage (is it the API or the whole host?)
-        run: |
-          curl -sS -o /dev/null --max-time 60 \
-            -w 'homepage code=%{http_code} total=%{time_total}s\n' \
-            https://aqi.punjab.gov.pk/ || echo "HOMEPAGE FAILED rc=$?"
+          for label, headers in (
+              ("collector headers", HEADERS),
+              ("browser UA", {**HEADERS, "User-Agent": "Mozilla/5.0"}),
+          ):
+              for attempt in (1, 2, 3):
+                  started = time.monotonic()
+                  try:
+                      req = urllib.request.Request(f"{BASE_URL}/districts", headers=headers)
+                      with urllib.request.urlopen(req, timeout=45) as r:
+                          body = r.read()
+                      print(f"{label} try{attempt}: {r.status} "
+                            f"{len(body)}b in {time.monotonic()-started:.2f}s")
+                  except Exception as exc:
+                      print(f"{label} try{attempt}: FAILED after "
+                            f"{time.monotonic()-started:.2f}s -> {type(exc).__name__}: {exc}")
+          PY
 
-      - name: IPv4 only (runners are dual-stack; the host may not be)
+      - name: the real collector, one district
         run: |
-          curl -sS -4 -o /dev/null --max-time 60 \
-            -w 'ipv4 code=%{http_code} total=%{time_total}s\n' \
-            https://aqi.punjab.gov.pk/api/districts || echo "IPV4 FAILED rc=$?"
+          python - <<'PY'
+          import time
+          from downwind import collect
+
+          started = time.monotonic()
+          try:
+              districts = collect.fetch_districts()
+              print(f"fetch_districts: {len(districts)} in {time.monotonic()-started:.2f}s")
+          except Exception as exc:
+              print(f"fetch_districts FAILED in {time.monotonic()-started:.2f}s -> {exc}")
+              raise SystemExit(0)
+
+          started = time.monotonic()
+          poll = collect.poll_once(delay=0.25)
+          print(f"poll_once: {len(poll.readings)} readings, "
+                f"{len(poll.failures)} failures in {time.monotonic()-started:.2f}s")
+          for f in poll.failures[:5]:
+              print("  failure:", f["target"], "->", f["error"][:120])
+          PY
