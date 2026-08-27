@@ -320,3 +320,80 @@ def test_run_record_names_the_district_source(monkeypatch, tmp_path):
     assert record["district_source"] == "cache"
     assert record["station_readings"] == 1
     assert record["complete"] is False
+
+
+def test_poll_stops_at_its_budget_and_names_what_it_missed(monkeypatch, tmp_path, frozen):
+    """A slow API must cost a bounded amount of time, not half an hour.
+
+    The CI run that prompted this spent eleven minutes inside one poll.
+    """
+    cache = tmp_path / "districts.json"
+    districts = ["A", "B", "C", "D", "E"]
+    monkeypatch.setattr(
+        collect,
+        "_fetch",
+        fake_fetch(
+            {
+                "districts": {"districts": districts},
+                **{f"district-stations/{d}": {"data": [STATION]} for d in districts},
+                "stations-with-connectivity-issues": {"count": 0},
+            }
+        ),
+    )
+    # Clock advances 100s per reading; the 250s budget allows three districts.
+    ticks = iter([0, 0, 100, 200, 300, 400, 500, 600])
+    poll = collect.poll_once(
+        delay=0,
+        now=frozen,
+        district_cache=cache,
+        budget_seconds=250,
+        clock=lambda: next(ticks),
+    )
+
+    assert poll.budget_exhausted is True
+    assert poll.districts_unreached == ["D", "E"]
+    assert len(poll.readings) == 3
+    assert poll.failures[-1]["target"] == "poll"
+    assert poll.failures[-1]["unreached"] == 2
+
+
+def test_a_poll_within_budget_reports_nothing_unreached(monkeypatch, tmp_path, frozen):
+    cache = tmp_path / "districts.json"
+    monkeypatch.setattr(
+        collect,
+        "_fetch",
+        fake_fetch(
+            {
+                "districts": {"districts": ["Lahore"]},
+                "district-stations/Lahore": {"data": [STATION]},
+                "stations-with-connectivity-issues": {"count": 0},
+            }
+        ),
+    )
+    poll = collect.poll_once(delay=0, now=frozen, district_cache=cache)
+
+    assert poll.budget_exhausted is False
+    assert poll.districts_unreached == []
+
+
+def test_run_record_separates_listed_from_polled(monkeypatch, tmp_path):
+    cache = tmp_path / "districts.json"
+    districts = ["A", "B", "C"]
+    monkeypatch.setattr(
+        collect,
+        "_fetch",
+        fake_fetch(
+            {
+                "districts": {"districts": districts},
+                **{f"district-stations/{d}": {"data": [STATION]} for d in districts},
+                "stations-with-connectivity-issues": {"count": 0},
+            }
+        ),
+    )
+    monkeypatch.setattr(collect.time, "monotonic", lambda: 10**9)
+    record = collect.run(Store(tmp_path), delay=0, district_cache=cache, budget_seconds=0)
+
+    assert record["districts_listed"] == 3
+    assert record["districts_polled"] == 0
+    assert record["budget_exhausted"] is True
+    assert record["complete"] is False

@@ -42,10 +42,16 @@ HEADERS = {
 
 PKT = timezone(timedelta(hours=5))
 
-REQUEST_TIMEOUT = 30.0
-RETRIES = 2
+REQUEST_TIMEOUT = 20.0
+RETRIES = 1
 RETRY_BACKOFF = 3.0
 POLITE_DELAY = 0.25
+
+# A normal sweep takes about a minute. The API is intermittently slow from
+# foreign hosts, and without a ceiling a pathological poll would spend
+# 36 districts x 43s of retries -- half an hour -- before returning. Past
+# this budget the sweep stops and records which districts it never reached.
+POLL_BUDGET_SECONDS = 300.0
 
 # The district list changes on the order of months; a cached copy keeps a
 # momentary failure on one endpoint from costing a whole poll.
@@ -66,7 +72,9 @@ class Poll:
     connectivity: list[dict[str, Any]] = field(default_factory=list)
     failures: list[dict[str, Any]] = field(default_factory=list)
     districts_seen: list[str] = field(default_factory=list)
+    districts_unreached: list[str] = field(default_factory=list)
     district_source: str = "live"
+    budget_exhausted: bool = False
 
 
 def _fetch(path: str, *, timeout: float = REQUEST_TIMEOUT) -> Any:
@@ -156,6 +164,8 @@ def poll_once(
     delay: float = POLITE_DELAY,
     now: Callable[[], datetime] = _utcnow,
     district_cache: Path = DISTRICT_CACHE,
+    budget_seconds: float = POLL_BUDGET_SECONDS,
+    clock: Callable[[], float] = time.monotonic,
 ) -> Poll:
     """Sweep every district once and return everything observed.
 
@@ -164,6 +174,7 @@ def poll_once(
     in the record is exactly the thing this project exists to measure.
     """
     started = now()
+    deadline = clock() + budget_seconds
     poll = Poll(poll_id=uuid.uuid4().hex, started_at=started)
 
     districts, source, error = resolve_districts(district_cache)
@@ -174,7 +185,18 @@ def poll_once(
         return poll
     poll.districts_seen = districts
 
-    for district in districts:
+    for index, district in enumerate(districts):
+        if clock() >= deadline:
+            poll.budget_exhausted = True
+            poll.districts_unreached = list(districts[index:])
+            poll.failures.append(
+                {
+                    "target": "poll",
+                    "error": f"budget of {budget_seconds}s exhausted",
+                    "unreached": len(poll.districts_unreached),
+                }
+            )
+            break
         moment = now()
         try:
             payload = _fetch(f"district-stations/{urllib.parse.quote(district)}")
@@ -234,9 +256,12 @@ def run(
     *,
     delay: float = POLITE_DELAY,
     district_cache: Path = DISTRICT_CACHE,
+    budget_seconds: float = POLL_BUDGET_SECONDS,
 ) -> dict[str, Any]:
     """Poll once and persist everything. Returns the run record."""
-    poll = poll_once(delay=delay, district_cache=district_cache)
+    poll = poll_once(
+        delay=delay, district_cache=district_cache, budget_seconds=budget_seconds
+    )
     finished = _utcnow()
 
     n_readings = store.append("readings", poll.started_at, poll.readings)
@@ -254,7 +279,10 @@ def run(
         "started_at_utc": poll.started_at.isoformat(),
         "finished_at_utc": finished.isoformat(),
         "duration_seconds": round((finished - poll.started_at).total_seconds(), 2),
-        "districts_polled": len(poll.districts_seen),
+        "districts_polled": len(poll.districts_seen) - len(poll.districts_unreached),
+        "districts_listed": len(poll.districts_seen),
+        "districts_unreached": poll.districts_unreached,
+        "budget_exhausted": poll.budget_exhausted,
         "district_source": poll.district_source,
         "districts": poll.districts_seen,
         "station_readings": stations,
@@ -274,6 +302,7 @@ def run_many(
     interval: float,
     delay: float = POLITE_DELAY,
     district_cache: Path = DISTRICT_CACHE,
+    budget_seconds: float = POLL_BUDGET_SECONDS,
     sleep: Callable[[float], None] = time.sleep,
 ) -> list[dict[str, Any]]:
     """Poll ``polls`` times, ``interval`` seconds apart, measured from each start.
@@ -286,7 +315,14 @@ def run_many(
     records: list[dict[str, Any]] = []
     for index in range(polls):
         started = time.monotonic()
-        records.append(run(store, delay=delay, district_cache=district_cache))
+        records.append(
+            run(
+                store,
+                delay=delay,
+                district_cache=district_cache,
+                budget_seconds=budget_seconds,
+            )
+        )
         if index < polls - 1:
             remaining = interval - (time.monotonic() - started)
             if remaining > 0:
