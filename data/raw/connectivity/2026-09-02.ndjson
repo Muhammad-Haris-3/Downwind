@@ -1,3 +1,5 @@
 {"observed_at_pkt": "2026-09-02T05:14:42.764776+05:00", "observed_at_utc": "2026-09-02T00:14:42.764776+00:00", "poll_id": "30f0975b1ecd43a98679b26e9890974a", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
 {"observed_at_pkt": "2026-09-02T05:27:11.332191+05:00", "observed_at_utc": "2026-09-02T00:27:11.332191+00:00", "poll_id": "103a61bc07e1410b96cc949acf08888e", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
 {"observed_at_pkt": "2026-09-02T05:42:16.778743+05:00", "observed_at_utc": "2026-09-02T00:42:16.778743+00:00", "poll_id": "b01eebb1830443c69b81cf03845e0cf4", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
+{"observed_at_pkt": "2026-09-02T09:17:12.116415+05:00", "observed_at_utc": "2026-09-02T04:17:12.116415+00:00", "poll_id": "d95495b2894d40caa1dfb2250e6510ab", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
+{"observed_at_pkt": "2026-09-02T09:32:19.669182+05:00", "observed_at_utc": "2026-09-02T04:32:19.669182+00:00", "poll_id": "768c59554eb6435cac4d5657f602cd2e", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
