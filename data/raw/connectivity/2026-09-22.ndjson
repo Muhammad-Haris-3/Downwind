@@ -1,0 +1,2 @@
+{"observed_at_pkt": "2026-09-22T06:46:45.454606+05:00", "observed_at_utc": "2026-09-22T01:46:45.454606+00:00", "poll_id": "9149d34f30654d8b857617957b86fef3", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
+{"observed_at_pkt": "2026-09-22T07:01:54.702573+05:00", "observed_at_utc": "2026-09-22T02:01:54.702573+00:00", "poll_id": "e0298ed2a10d4836a3ae0190f8798fc9", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
