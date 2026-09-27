@@ -1,2 +1,4 @@
 {"observed_at_pkt": "2026-09-27T06:19:43.005354+05:00", "observed_at_utc": "2026-09-27T01:19:43.005354+00:00", "poll_id": "fd83914fc9354f3986ddbce9f5e98c45", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
 {"observed_at_pkt": "2026-09-27T06:34:42.148169+05:00", "observed_at_utc": "2026-09-27T01:34:42.148169+00:00", "poll_id": "b8ace2ab456743baa949793307fd715a", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
+{"observed_at_pkt": "2026-09-27T06:41:58.146378+05:00", "observed_at_utc": "2026-09-27T01:41:58.146378+00:00", "poll_id": "77949410ad2643ca85f1fdd4d41c7032", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
+{"observed_at_pkt": "2026-09-27T06:56:31.033204+05:00", "observed_at_utc": "2026-09-27T01:56:31.033204+00:00", "poll_id": "9a013bd63f804eda906dcd6713d881ec", "raw": {"count": 0, "has_issues": false, "stations": []}, "schema": 1}
